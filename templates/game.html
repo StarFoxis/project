@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Игра{% endblock title %}
+
+{% block content %}
+<div class="game">
+    <h3>Игра</h3>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    {% if category == 'start' %}
+                        <li class="message start_message">{{ message }}</li>
+                    {% elif category == 'move' %}
+                        <li class="message move_message">{{ message }}</li>
+                    {% elif category == 'wall' %}
+                        <li class="message wall_message">{{ message }}</li>
+                    {% elif category == 'enemy' %}
+                        <li class="message enemy_message">{{ message }}</li>
+                    {% elif category == 'win' %}
+                        <li class="message win_message">{{ message }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="" method="post" id="game">
+        {{ form_game.csrf_token }}
+        {% for field in form_game if field.name not in ['csrf_token', 'move'] %}
+            <p>
+                {{ field.label }}
+                {{ field }}
+                <span class="errors">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            </p>
+        {% endfor %}
+        {{ form_game.move(class='btn') }}
+    </form>
+    <div class="world">
+        <div class="map">
+            <div class="floor">
+                <span class="room" style="border-top-left-radius: 75%; border-top-right-radius: 75%; border-bottom: 0;"><p>Балкон</p></span>
+            </div>
+            <div class="floor">
+                <span class="room" style="border-top-left-radius: 25px; border-right: 0; border-bottom: 0;"><p>Спальня</p></span>
+                <span class="room" style="border-bottom: 0"><p>Холл</p></span>
+                <span class="room" style="border-top-right-radius: 25px; border-left: 0; border-bottom: 0;"><p>Кухня</p></span>
+            </div>
+            <div class="floor">
+                <span class="room" style="border-bottom-left-radius: 25px; border-right: 0;"><p>Подземелье</p></span>
+                <span class="room"><p>Коридор</p></span>
+                <span class="room" style="border-bottom-right-radius: 25px; border-left: 0;"><p>Оружейная</p></span>
+            </div>
+        </div>
+        <div class="direction">
+            <img src="{{ url_for('static', filename='img/direction.png') }}" alt="Стороны света">
+        </div>
+    </div>
+</div>
+<div class="review">
+    <h3>Отзыв</h3>
+    <hr>
+    <form action="" method="post" id="message">
+        {{ form_review.csrf_token }}
+        {% for field in form_review if field.name not in ['csrf_token', 'push'] %}
+            <p>
+                {{ field.label }}
+                {{ field }}
+                <span class="errors">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            </p>
+        {% endfor %}
+        {{ form_review.push }}
+    </form>
+</div>
+{% endblock content %}
+
+{% block script %}
+{{ super() }}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    rooms = $('.room>p')
+    $.each(rooms, (index, room) => {
+        if (room.innerText == '{{ current_room }}') room.parentElement.classList.add('current_room');
+        else room.parentElement.classList.remove('current_room');
+    });
+
+    $('.review').hide(0);
+    if ('{{ current_room }}' == 'Балкон') {
+        setInterval(() => {
+            $('.game').hide(1000, () => {
+                $('.review').show(1000);
+            })
+        }, 2000);
+    }
+</script>
+{% endblock script %}

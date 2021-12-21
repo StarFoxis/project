@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+html, body, .container {
+    height: 100%
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+nav p {
+    margin: 5px;
+    font-size: 16px;
+}
+
+.world {
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.map {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.floor {
+    display: flex;
+    justify-content: center;
+}
+
+.room {
+    width: 130px;
+    height: 80px;
+    border: 2px solid black;
+    text-align: center;
+    line-height: 80px;
+}
+
+.room p {
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.current_room {
+    background-color: rgb(233, 189, 123);
+}
+
+.direction img {
+    height: 244.406px;
+}
+
+.message {
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    padding: 5px;
+    font-size: 18px;
+}
+
+.start_message {
+    background-color: rgb(114, 193, 218);
+    color: rgb(33, 61, 70);
+    border-color: rgb(79, 79, 218);
+}
+
+.move_message {
+    background-color: rgb(187, 231, 189);
+    color: rgb(52, 105, 52);
+    border-color: rgb(139, 185, 128);
+}
+
+.enemy_message {
+    background-color: rgb(226, 171, 171);
+    color: rgb(128, 27, 13);
+    border-color: rgb(139, 76, 60);
+}
+
+.win_message {
+    background-color: rgb(230, 238, 161);
+    color: rgb(103, 109, 16);
+    border-color: rgb(161, 172, 67);
+}
+
+.wall_message {
+    color: rgb(93, 107, 31);
+    border: 0;
+}
