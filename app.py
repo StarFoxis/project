@@ -14,12 +14,13 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/about/')
-def about():
+@app.route('/about/<string:letter>') # динамический маршрут
+@app.route('/about') # статический маршрут
+def about(letter):
     return render_template('info.html')
 
 
-@app.route('/game/', methods=['get', 'post'])
+@app.route('/game', methods=['get', 'post'])
 def games():
     game = Game()
     form_game = GameForm()
@@ -31,7 +32,7 @@ def games():
 
         string = game.move(direction, step)
         flash(*string)
-        # return redirect(url_for('game', number=number))
+        # return redirect(url_for('games'))
 
     if form_review.push.data:
         name = form_review.name.data or 'Anonymous'

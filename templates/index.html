@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="main">
-        <p class="about_game"><a href="{{ url_for('about') }}">Об игре</a></p>
+        <p class="about_game"><a href="{{ url_for('about', letter='abcdefg'|random) }}">Об игре</a></p>
         <p class="start_game"><a href="{{ url_for('games') }}">Играть</a></p>
     </div>
 {% endblock content %}
@@ -10,6 +10,7 @@
 {% block script %}
 {{ super() }}
 <script>
+    // Я не знаю почему это работает))
     // {% with messages = get_flashed_messages() %}
     //     {% if messages %}
     //         {% for message in messages %}

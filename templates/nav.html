@@ -1,5 +1,7 @@
+
+
 <nav>
     <p><a href="{{ url_for('index') }}">Главная</a></p>
-    <p><a href="{{ url_for('about') }}">Об игре</a></p>
+    <p><a href="{{ url_for('about', letter='abcdefg'|random) }}">Об игре</a></p>
     <p><a href="{{ url_for('games') }}">Играть</a></p>
 </nav>
