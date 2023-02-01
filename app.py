@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from project.forms import GameForm, ReviewForm
+
 from config import Config
 from game import Game
+from project.forms import GameForm, ReviewForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
 
 @app.route('/')
 def index():
@@ -14,10 +16,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/about/<string:letter>') # динамический маршрут
-@app.route('/about') # статический маршрут
-def about(letter):
-    return render_template('info.html')
+@app.route('/about/<string:letter>')  # динамический маршрут
+@app.route('/about')  # статический маршрут
+def about(letter="Игра круть просто жуть!"):
+    return render_template('info.html', letter=letter)
 
 
 @app.route('/game', methods=['get', 'post'])
@@ -39,14 +41,16 @@ def games():
         review = form_review.message.data
 
         with open('review.txt', 'a', encoding='utf-8') as file:
-            print(f'Имя: {name}\nСообщение: {review}\n{"-"*10}', end='\n', file=file)
+            print(f'Имя: {name}\nСообщение: {review}\n{"-" * 10}', end='\n', file=file)
 
         flash('Спасибо за отзыв')
         return redirect(url_for('index'))
 
     if request.method == 'GET' and game.current_room == 'Подземелье':
-        flash('После бурной ночи вы оказались в подземельнье! Вам нужно срочно убегать. Найдите путь на балкон...', 'start')
-    return render_template('game.html', form_game=form_game, form_review=form_review, current_room=game.getCurrentRoom())
+        flash('После бурной ночи вы оказались в подземельнье! Вам нужно срочно убегать. Найдите путь на балкон...',
+              'start')
+    return render_template('game.html', form_game=form_game, form_review=form_review,
+                           current_room=game.getCurrentRoom())
 
 
 if __name__ == '__main__':
